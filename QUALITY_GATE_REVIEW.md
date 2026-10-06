@@ -2,7 +2,7 @@
 
 **Student:** Thananchatorn Muangpool (6731503013)  **Date:** 6 October 2026
 
-> IMPORTANT: Findings must describe what **really** happened in your first version. If your minute-30 version did not have a problem listed below, replace it with a real one you found. Use the instructor's `quality_gate.md` checklist headings.
+> IMPORTANT: Findings must describe what **really** happened in your first version. If your minute-30 version did not have a problem listed below, replace it with a real one you found. Use the instructor's Quality Gate checklist headings.
 
 ## Pre-review snapshot (minute 30)
 

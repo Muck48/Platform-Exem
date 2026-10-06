@@ -45,7 +45,7 @@
 
 | What | How I noticed | What I did |
 |---|---|---|
-| The initial response-format idea did not match the exam brief. | Compared the proposed format with `exam_brief_en.md`. | Kept plain success objects/arrays and `{ "error": "..." }` for errors. |
+| The initial response-format idea did not match the exam brief. | Compared the proposed format with the exam requirements. | Kept plain success objects/arrays and `{ "error": "..." }` for errors. |
 | The public Cloudflare response used a different conflict message from the current source. | Compared the live response with `src/server.ts` and `API_CONTRACT.md`. | Migrated the Worker to the current Hono implementation with D1 and verified the deployed equipment endpoint returned HTTP 200. |
 
 ## Ownership check - questions I can answer without the AI
