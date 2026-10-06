@@ -6,7 +6,8 @@ REST API for reserving shared equipment (projectors, cameras, meeting rooms) tha
 - **Stack:** Node.js, TypeScript, Hono, SQLite (`sqlite3`), `dotenv`
 - **Base URL used for testing:** `http://localhost:5000/api`
 - **Cloudflare API:** `https://campus-equipment-booking-api.6731503013.workers.dev/api`
-- **Simple UI:** [public/index.html](public/index.html)
+- **Live UI:** `https://campus-equipment-booking-ui.pages.dev`
+- **UI source:** [public/index.html](public/index.html)
 - **Contract:** see [API_CONTRACT.md](API_CONTRACT.md) | **AI use:** [AI_LOG.md](AI_LOG.md) | **Review:** [QUALITY_GATE_REVIEW.md](QUALITY_GATE_REVIEW.md)
 
 ## Setup & run
