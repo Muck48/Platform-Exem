@@ -8,7 +8,6 @@ REST API for reserving shared equipment (projectors, cameras, meeting rooms) tha
 - **Cloudflare API:** `https://campus-equipment-booking-api.6731503013.workers.dev/api`
 - **Simple UI:** [public/index.html](public/index.html)
 - **Contract:** see [API_CONTRACT.md](API_CONTRACT.md) | **AI use:** [AI_LOG.md](AI_LOG.md) | **Review:** [QUALITY_GATE_REVIEW.md](QUALITY_GATE_REVIEW.md)
-- **Supporting documents:** [curl_test_guide.md](docs/curl_test_guide.md), [exam_brief_en.md](docs/exam_brief_en.md), [rubric_en.md](docs/rubric_en.md), and [quality_gate.md](docs/quality_gate.md)
 
 ## Setup & run
 
