@@ -1,0 +1,16 @@
+{
+  "name": "platform-exem-api-starter",
+  "version": "1.0.0",
+  "description": "Modular layered REST API starter for Platform Development lab test",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "better-sqlite3": "^11.8.1"
+  }
+}
