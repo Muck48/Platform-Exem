@@ -239,14 +239,14 @@ are the authoritative evidence for the submitted TypeScript + Hono implementatio
 
 ### Current Hono screenshots
 
-![T1 Hono equipment response](https://raw.githubusercontent.com/Muck48/Platform-Exem/main/evidence/hono-t1.png)
+![T1 Hono equipment response](evidence/hono-t1.png)
 
-![T2 Hono create response](https://raw.githubusercontent.com/Muck48/Platform-Exem/main/evidence/hono-t2.png)
+![T2 Hono create response](evidence/hono-t2.png)
 
-![T5 Hono overlap response](https://raw.githubusercontent.com/Muck48/Platform-Exem/main/evidence/hono-t5.png)
+![T5 Hono overlap response](evidence/hono-t5.png)
 
-![T7 Hono invalid-time response](https://raw.githubusercontent.com/Muck48/Platform-Exem/main/evidence/hono-t7.png)
+![T7 Hono invalid-time response](evidence/hono-t7.png)
 
-![T9 Hono not-found response](https://raw.githubusercontent.com/Muck48/Platform-Exem/main/evidence/hono-t9.png)
+![T9 Hono not-found response](evidence/hono-t9.png)
 
-![T11 Hono SQL-injection response](https://raw.githubusercontent.com/Muck48/Platform-Exem/main/evidence/hono-t11.png)
+![T11 Hono SQL-injection response](evidence/hono-t11.png)
