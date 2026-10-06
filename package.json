@@ -1,0 +1,29 @@
+{
+  "name": "exem",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "build": "tsc",
+    "deploy": "wrangler deploy",
+    "d1:migrate": "wrangler d1 migrations apply campus-equipment-booking-db",
+    "test": "echo \"No automated tests configured\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hono/node-server": "^1.19.5",
+    "dotenv": "^18.0.5",
+    "hono": "^4.9.9",
+    "sqlite3": "^6.0.1",
+    "tsx": "^4.20.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260702.1",
+    "@types/node": "^24.7.2",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.86.0"
+  }
+}

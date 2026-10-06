@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Equipment Booking</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #f4f6f8; color: #17202a; }
+    main { width: min(980px, calc(100% - 32px)); margin: 32px auto; }
+    h1 { margin-bottom: 4px; }
+    .muted { color: #667085; margin-top: 0; }
+    .panel { background: white; border: 1px solid #dfe4ea; border-radius: 10px; padding: 20px; margin-top: 18px; box-shadow: 0 2px 8px #17202a0d; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    label { display: grid; gap: 5px; font-weight: 600; font-size: 14px; }
+    input, select, button { font: inherit; padding: 9px 10px; border: 1px solid #cbd3dc; border-radius: 6px; box-sizing: border-box; }
+    input, select { width: 100%; }
+    button { background: #1f6feb; color: white; border: 0; cursor: pointer; }
+    button:hover { background: #185abc; }
+    .danger { background: #c0392b; }
+    .danger:hover { background: #992d22; }
+    .actions { display: flex; gap: 8px; margin-top: 14px; }
+    .message { min-height: 22px; margin: 14px 0 0; }
+    .error { color: #b42318; }
+    .success { color: #027a48; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #eaecf0; vertical-align: top; }
+    th { color: #475467; font-size: 13px; }
+    td button { padding: 5px 8px; margin-right: 4px; }
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Campus Equipment Booking</h1>
+    <p class="muted">Simple booking dashboard</p>
+
+    <section class="panel">
+      <label>API base URL
+        <select id="api">
+          <option value="https://campus-equipment-booking-api.6731503013.workers.dev/api">Cloudflare (deployed)</option>
+          <option value="http://localhost:5000/api">Local server</option>
+        </select>
+      </label>
+      <div class="actions">
+        <button id="refresh" type="button">Refresh bookings</button>
+      </div>
+      <p id="message" class="message"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Create booking</h2>
+      <form id="booking-form">
+        <div class="grid">
+          <label>Equipment
+            <select id="equipmentId" required></select>
+          </label>
+          <label>Borrower name
+            <input id="borrowerName" required maxlength="100">
+          </label>
+          <label>Start
+            <input id="startAt" type="datetime-local" required>
+          </label>
+          <label>End
+            <input id="endAt" type="datetime-local" required>
+          </label>
+          <label>Purpose
+            <input id="purpose" maxlength="500">
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit">Create booking</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Bookings</h2>
+      <table>
+        <thead><tr><th>Equipment</th><th>Borrower</th><th>Time</th><th>Purpose</th><th>Action</th></tr></thead>
+        <tbody id="bookings"></tbody>
+      </table>
+    </section>
+  </main>
+  <script>
+    const api = document.querySelector('#api');
+    const message = document.querySelector('#message');
+    const equipmentSelect = document.querySelector('#equipmentId');
+    const bookingsTable = document.querySelector('#bookings');
+    const form = document.querySelector('#booking-form');
+    let equipment = [];
+
+    function show(text, error = false) {
+      message.textContent = text;
+      message.className = `message ${error ? 'error' : 'success'}`;
+    }
+
+    async function request(path, options) {
+      const response = await fetch(`${api.value}${path}`, options);
+      const data = response.status === 204 ? null : await response.json();
+      if (!response.ok) throw new Error(data?.error || `Request failed (${response.status})`);
+      return data;
+    }
+
+    function toIso(value) {
+      return new Date(value).toISOString();
+    }
+
+    async function loadEquipment() {
+      equipment = await request('/equipment');
+      equipmentSelect.innerHTML = equipment.map((item) =>
+        `<option value="${item.id}">${item.name} (${item.location})</option>`).join('');
+    }
+
+    async function loadBookings() {
+      const bookings = await request('/bookings');
+      bookingsTable.innerHTML = bookings.length ? bookings.map((booking) => {
+        const item = equipment.find((entry) => entry.id === booking.equipmentId);
+        return `<tr>
+          <td>${item?.name || booking.equipmentId}</td>
+          <td>${booking.borrowerName}</td>
+          <td>${new Date(booking.startAt).toLocaleString()}<br>to ${new Date(booking.endAt).toLocaleString()}</td>
+          <td>${booking.purpose || '-'}</td>
+          <td><button class="danger" data-id="${booking.id}" type="button">Delete</button></td>
+        </tr>`;
+      }).join('') : '<tr><td colspan="5">No bookings yet.</td></tr>';
+    }
+
+    async function refresh() {
+      try {
+        await loadEquipment();
+        await loadBookings();
+        show('Data loaded.');
+      } catch (error) {
+        show(error.message, true);
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      try {
+        await request('/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            equipmentId: equipmentSelect.value,
+            borrowerName: document.querySelector('#borrowerName').value,
+            startAt: toIso(document.querySelector('#startAt').value),
+            endAt: toIso(document.querySelector('#endAt').value),
+            purpose: document.querySelector('#purpose').value
+          })
+        });
+        form.reset();
+        await loadBookings();
+        show('Booking created.');
+      } catch (error) {
+        show(error.message, true);
+      }
+    });
+
+    bookingsTable.addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-id]');
+      if (!button || !confirm('Delete this booking?')) return;
+      try {
+        await request(`/bookings/${button.dataset.id}`, { method: 'DELETE' });
+        await loadBookings();
+        show('Booking deleted.');
+      } catch (error) {
+        show(error.message, true);
+      }
+    });
+
+    api.addEventListener('change', refresh);
+    document.querySelector('#refresh').addEventListener('click', refresh);
+    refresh();
+  </script>
+</body>
+</html>
